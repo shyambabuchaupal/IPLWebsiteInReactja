@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function PointsTable() {
   let pointtableData = {
@@ -1793,20 +1793,69 @@ function PointsTable() {
         "www.cricbuzz.com/cricket-series/4061/indian-premier-league-2022/points-table",
     },
   };
- const [tableData, setTableData] = useState(pointtableData.pointsTable[0].pointsTableInfo)
+  const [tableData, setTableData] = useState([]);
+  
+
+  async function fetchpointstable() {
+    const url = 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/4061/points-table';
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': '1b86a4dd70msh9fcf4f2263c1280p104ab7jsn224cd34ac589',
+        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+      }
+    };
+    
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+    console.log( setTableData(result.pointsTable[0].pointsTableInfo))
+     
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    // fetchpointstable();
+    setTableData(pointtableData.pointsTable[0].pointsTableInfo)
+  }, []);
 
   return (
     <div>
-     {
-        tableData.map((data , i)=>{
-            console.log(data)
-            return(
-                <div key={i}>
-                    <h2>{data.teamName}</h2>
-                </div>
-            )
-        })
-     }
+      {tableData.length<=0 ? <h1>Loading...</h1> : tableData.map(
+        ({ form, matchesLost, matchesPlayed, points, nrr, teamName }, i) => {
+          // console.log(data)
+          return (
+            <div className="flex gap-4" key={i}>
+              <span>{i + 1}</span>
+              <span>{teamName}</span>
+              <span>{matchesPlayed}</span>
+              <span>{matchesLost}</span>
+
+              <span>{points}</span>
+              <span>{nrr}</span>
+              <span className="flex gap-2">
+                {form
+                  .reverse()
+                  .map((data, i) =>
+                    data === "W" ? (
+                      <i
+                        className="fi fi-ss-check-circle text-green-600 text-sm"
+                        key={i}
+                      ></i>
+                    ) : (
+                      <i
+                        className="fi fi-sr-cross-circle text-red-600 text-sm"
+                        key={i}
+                      ></i>
+                    )
+                  )}
+              </span>
+            </div>
+          );
+        }
+      )}
     </div>
   );
 }

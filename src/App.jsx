@@ -12,8 +12,10 @@ function App() {
         <Route path="/" element={<Navbar />}>
           <Route path="/" element={<Home />} />
           <Route path="/pointtable" element={<PointsTable/>}/>
-          <Route path="matchdetail/:id" element={<MatchDetail />} />
+          <Route path="/news" element={<h1>Comming soon.....</h1>}/>
+         
         </Route>
+        <Route path="matchdetail/:id" element={<MatchDetail />} />
       </Routes>
     </>
   );

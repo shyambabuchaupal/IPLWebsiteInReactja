@@ -4239,7 +4239,7 @@ const options = {
 try {
     const response = await fetch(url, options);
     const result = await response.json();
-    // console.log(result);
+    console.log(result);
     // let filterdata = result.matchDetails.filter(singleMatch=>singleMatch["matchDetailsMap"])
     // setMatchData(filterdata)
 } catch (error) {
@@ -4255,18 +4255,18 @@ try {
   return (
     <>
     {
-  MatchData.map((data, i) => {
+  MatchData.map(({matchDetailsMap:{match, key:date}}, i) => {
     return (
-      data.matchDetailsMap.match.map((singlematch, matchIndex) => {
+      match.map(({matchInfo :{team1:{teamSName:team1name} , team2:{teamSName}, status,matchId}}, matchIndex) => {
        
 
         return (
           <div key={`${i}-${matchIndex}`}>
-            <Link to={`/matchdetail/${singlematch.matchInfo.matchId}`}>
-            <h2>{singlematch.matchInfo.team1.teamSName} VS {singlematch.matchInfo.team2.teamSName}</h2>
+            <Link to={`/matchdetail/${matchId}`}>
+            <h2>{team1name} VS {teamSName}</h2>
             </Link>
-             <span>{data.matchDetailsMap.key}</span>
-            <p>{singlematch.matchInfo.status}</p>
+             <span>{date}</span>
+            <p>{status}</p>
           </div>
         );
       })
