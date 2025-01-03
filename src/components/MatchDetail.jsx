@@ -846,7 +846,7 @@ function MatchDetail() {
     const options = {
       method: "GET",
       headers: {
-        "x-rapidapi-key": "1b86a4dd70msh9fcf4f2263c1280p104ab7jsn224cd34ac589",
+        "x-rapidapi-key": import.meta.env.VITE_API_KEY,
         "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
       },
     };

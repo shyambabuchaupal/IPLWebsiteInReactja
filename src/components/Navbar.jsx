@@ -1,14 +1,14 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import InPageNavigation from "./InPageNavigation";
 
 function Navbar() {
   return (
-    <>
-      {/* <div className="flex gap-4 w-[100%] py-6 px-6 font-semibold  items-center"> */}
+    <div className="w-full lg:w-[50%] min-h-screen mx-auto bg-gray-800 text-white">
+    
       <InPageNavigation
         teams={[
           { title: "MATCHES", path: "/" },
-          { title: "NEWS", path: "/news" },
+          { title: "NEWS", path: "/news" }, 
           { title: "TABLE", path: "/pointtable" },
         ]}
       ></InPageNavigation>
@@ -19,9 +19,9 @@ function Navbar() {
         <Link to={"/pointtable"}>
           <h2>Point Table</h2>
         </Link> */}
-      {/* </div> */}
+     
       <Outlet />
-    </>
+    </div>
   );
 }
 

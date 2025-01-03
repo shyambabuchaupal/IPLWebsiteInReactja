@@ -1794,23 +1794,22 @@ function PointsTable() {
     },
   };
   const [tableData, setTableData] = useState([]);
-  
 
   async function fetchpointstable() {
-    const url = 'https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/4061/points-table';
+    const url =
+      "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/series/4061/points-table";
     const options = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'x-rapidapi-key': '1b86a4dd70msh9fcf4f2263c1280p104ab7jsn224cd34ac589',
-        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
-      }
+        "x-rapidapi-key": import.meta.env.VITE_API_KEY,
+        "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
+      },
     };
-    
+
     try {
       const response = await fetch(url, options);
       const result = await response.json();
-    console.log( setTableData(result.pointsTable[0].pointsTableInfo))
-     
+      console.log(setTableData(result.pointsTable[0].pointsTableInfo));
     } catch (error) {
       console.error(error);
     }
@@ -1818,44 +1817,80 @@ function PointsTable() {
 
   useEffect(() => {
     // fetchpointstable();
-    setTableData(pointtableData.pointsTable[0].pointsTableInfo)
+    setTableData(pointtableData.pointsTable[0].pointsTableInfo);
   }, []);
 
   return (
-    <div>
-      {tableData.length<=0 ? <h1>Loading...</h1> : tableData.map(
-        ({ form, matchesLost, matchesPlayed, points, nrr, teamName }, i) => {
-          // console.log(data)
-          return (
-            <div className="flex gap-4" key={i}>
-              <span>{i + 1}</span>
-              <span>{teamName}</span>
-              <span>{matchesPlayed}</span>
-              <span>{matchesLost}</span>
+    <div className="w-full ">
+      <table className="w-full">
+        <tr className="text-center w-full">
+          <td className="text-left w-[40%]">Teams</td>
+          <td>M</td>
+          <td>W</td>
+          <td>L</td>
+          <td>NRR</td>
+          <td>Pts</td>
+          <td>Last 5</td>
+        </tr>
 
-              <span>{points}</span>
-              <span>{nrr}</span>
-              <span className="flex gap-2">
-                {form
-                  .reverse()
-                  .map((data, i) =>
-                    data === "W" ? (
-                      <i
-                        className="fi fi-ss-check-circle text-green-600 text-sm"
-                        key={i}
-                      ></i>
-                    ) : (
-                      <i
-                        className="fi fi-sr-cross-circle text-red-600 text-sm"
-                        key={i}
-                      ></i>
-                    )
-                  )}
-              </span>
-            </div>
-          );
-        }
-      )}
+        {tableData.length <= 0 ? (
+          <h1>Loading...</h1>
+        ) : (
+          tableData.map(
+            (
+              {
+                form,
+                matchesLost,
+                matchesPlayed,
+                points,
+                nrr,
+                teamName,
+                teamImageId,
+                matchesWon,
+              },
+              i
+            ) => {
+              // console.log(data)
+              return (
+                <tr className="text-center w-full" key={i}>
+                  <div className="flex gap-6">
+                    <td className="w-5">{i + 1}</td>
+                    <img
+                      className="w-5 object-contain h-6"
+                      src={`https://res.cloudinary.com/digkgdovw/image/upload/v1715267905/iplTeamLogo/${teamImageId}`}
+                      alt={teamImageId}
+                    />
+                    <td>{teamName}</td>
+                  </div>
+                  <td>{matchesPlayed}</td>
+                  <td>{matchesLost}</td>
+                  <td>{matchesWon}</td>
+                  <td>{nrr}</td>
+                  <td>{points}</td>
+
+                  <td className="flex gap-2 justify-center">
+                    {form
+                      .reverse()
+                      .map((data, i) =>
+                        data === "W" ? (
+                          <i
+                            className="fi fi-ss-check-circle text-green-600 text-sm"
+                            key={i}
+                          ></i>
+                        ) : (
+                          <i
+                            className="fi fi-sr-cross-circle text-red-600 text-sm"
+                            key={i}
+                          ></i>
+                        )
+                      )}
+                  </td>
+                </tr>
+              );
+            }
+          )
+        )}
+      </table>
     </div>
   );
 }
